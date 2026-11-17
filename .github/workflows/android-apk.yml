@@ -1,29 +1,30 @@
-name: Android APK Oluştur
+name: Android APK Build
 
 on:
   push:
     branches: [ main, master, ana ]
 
 jobs:
-  oluştur:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: JDK Kur
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Gradle Yetki Ver
+      - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: APK Derle
+      - name: Build APK with Gradle
         run: ./gradlew assembleDebug
 
-      - name: APK Kaydet
+      - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
           path: app/build/outputs/apk/debug/app-debug.apk
+          
