@@ -17,6 +17,5 @@ jobs:
           java-version: '17'
 
       - name: Build with Gradle
-        run: gradle assembleDebug
-        working-directory: Pixeltranslate2.5
+        run: gradle -p Pixeltranslate2.5 assembleDebug
         
