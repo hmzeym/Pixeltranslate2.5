@@ -17,10 +17,8 @@ jobs:
           java-version: '17'
 
       - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-        working-directory: Pixeltranslate2.5
+        run: chmod +x Pixeltranslate2.5/gradlew
 
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
-        working-directory: Pixeltranslate2.5
+        run: ./Pixeltranslate2.5/gradlew assembleDebug
         
