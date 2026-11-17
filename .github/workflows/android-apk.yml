@@ -18,5 +18,4 @@ jobs:
 
       - name: Build with Gradle
         run: gradle assembleDebug
-        working-directory: Pixeltranslate2.5
         
