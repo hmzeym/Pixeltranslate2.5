@@ -16,6 +16,9 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
       - name: Build with Gradle
-        run: gradle -p Pixeltranslate2.5 assembleDebug
+        run: ./gradlew assembleDebug
         
