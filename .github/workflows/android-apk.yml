@@ -1,0 +1,57 @@
+name: Android APK Oluştur
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, ana]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Depoyu indir
+        uses: actions/checkout@v4
+
+      - name: Node.js kur
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Java kur
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Android araçlarını kur
+        uses: android-actions/setup-android@v3
+
+      - name: ZIP dosyasını aç
+        run: |
+          unzip -q Pixel-Translate-Android-kaynak.zip -d extracted
+          cp -R extracted/Pixel-Translate-Android/. .
+
+      - name: Bağımlılıkları yükle
+        run: npm install
+
+      - name: Android projesini oluştur
+        run: npx cap add android
+
+      - name: İzinleri ayarla
+        run: node scripts/patch-android-manifest.mjs
+
+      - name: Android dosyalarını eşitle
+        run: npx cap sync android
+
+      - name: APK oluştur
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: APK dosyasını kaydet
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pixel-Translate-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
